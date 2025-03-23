@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ThermometerSun, Menu, X } from 'lucide-react';
+import { ThermometerSun, BarChart, Heart, Menu, X } from 'lucide-react';
 import { useWeather } from '../context/WeatherContext';
 import { Button } from '@/components/ui/button';
 
@@ -62,7 +62,7 @@ const Navbar: React.FC = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-[57px] bottom-0 z-40 bg-background border-t border-border/40 overflow-y-auto">
+        <div className="md:hidden fixed inset-0 z-50 bg-white dark:bg-gray-900 animate-fade-in" style={{top: '57px'}}>
           <div className="container mx-auto p-4">
             <div className="flex flex-col space-y-4">
               <Link 
