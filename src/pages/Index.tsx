@@ -20,7 +20,7 @@ const Index = () => {
   } = useWeather();
   
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 py-8">
@@ -70,7 +70,7 @@ const Index = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {favorites.slice(0, 3).map((location) => (
-                  <div key={location.id} className="weather-glass rounded-xl p-2 hover-lift">
+                  <div key={location.id} className="bg-white/50 dark:bg-black/30 border border-white/30 dark:border-white/10 rounded-xl p-2 shadow-lg hover-lift">
                     <Button 
                       variant="ghost" 
                       className="w-full justify-between h-auto py-3 font-normal text-left"

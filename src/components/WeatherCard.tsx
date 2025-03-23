@@ -73,7 +73,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ location, isComparison = fals
   return (
     <div className={`rounded-3xl overflow-hidden shadow-xl w-full transition-all duration-500 ${isComparison ? '' : 'hover:shadow-2xl hover:scale-[1.01]'}`}>
       <div className={`${backgroundClass} relative p-6 pb-4 transition-all duration-500`}>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/30 backdrop-blur-xs"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/20"></div>
         
         <div className="relative flex justify-between items-start mb-4">
           <div className="flex items-center">
@@ -85,7 +85,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ location, isComparison = fals
           <div className="flex space-x-2">
             <button 
               onClick={() => isFavorite(location.id) ? removeFromFavorites(location.id) : addToFavorites(location)}
-              className="p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md transition-all duration-300"
+              className="p-2 rounded-full bg-white/30 hover:bg-white/40 transition-all duration-300"
               aria-label={isFavorite(location.id) ? "Remove from favorites" : "Add to favorites"}
             >
               <Heart 
@@ -96,7 +96,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ location, isComparison = fals
             {!isComparison && (
               <button 
                 onClick={() => removeLocation(location.id)}
-                className="p-2 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md transition-all duration-300"
+                className="p-2 rounded-full bg-white/30 hover:bg-white/40 transition-all duration-300"
                 aria-label="Remove location"
               >
                 <Trash className="h-4 w-4 text-white" />
@@ -129,15 +129,15 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ location, isComparison = fals
         </div>
         
         <div className="grid grid-cols-3 gap-2 mt-6 text-white/90 text-shadow">
-          <div className="flex flex-col items-center p-2 bg-white/10 backdrop-blur-md rounded-xl">
+          <div className="flex flex-col items-center p-2 bg-white/20 rounded-xl">
             <span className="text-xs uppercase tracking-wide">Humidity</span>
             <span className="font-semibold">{current.main.humidity}%</span>
           </div>
-          <div className="flex flex-col items-center p-2 bg-white/10 backdrop-blur-md rounded-xl">
+          <div className="flex flex-col items-center p-2 bg-white/20 rounded-xl">
             <span className="text-xs uppercase tracking-wide">Wind</span>
             <span className="font-semibold">{formatWindSpeed(current.wind.speed, unit)}</span>
           </div>
-          <div className="flex flex-col items-center p-2 bg-white/10 backdrop-blur-md rounded-xl">
+          <div className="flex flex-col items-center p-2 bg-white/20 rounded-xl">
             <span className="text-xs uppercase tracking-wide">Pressure</span>
             <span className="font-semibold">{current.main.pressure} hPa</span>
           </div>
@@ -154,7 +154,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ location, isComparison = fals
       </div>
       
       {!isComparison && data.forecast && data.forecast.list && (
-        <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-md p-4">
+        <div className="bg-white dark:bg-slate-800 p-4">
           <h3 className="font-medium mb-2 text-sm text-foreground/80">5-Day Forecast</h3>
           <Forecast forecast={data.forecast} unit={unit} timezone={data.forecast.city.timezone} />
         </div>
