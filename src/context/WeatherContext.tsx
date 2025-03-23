@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { toast } from "sonner";
 
@@ -272,14 +271,14 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
       }
       
       let newLocations;
-      // If already at maximum, remove the oldest location
+      // If already at maximum, remove the last location
       if (prev.length >= 3) {
-        // Remove the first (oldest) location and add the new one at the end
-        newLocations = [...prev.slice(1), location];
+        // Add the new location at the beginning and keep only the first 3
+        newLocations = [location, ...prev.slice(0, 2)];
         toast.info('Removed oldest location to add new one');
       } else {
-        // Add the new location
-        newLocations = [...prev, location];
+        // Add the new location at the beginning
+        newLocations = [location, ...prev];
       }
       
       // Fetch weather data for the new location
