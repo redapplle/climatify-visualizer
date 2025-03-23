@@ -9,16 +9,6 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   
-  // Create a ref for the mobile menu
-  const mobileMenuRef = React.useRef<HTMLDivElement>(null);
-  
-  // Effect to set background when menu opens
-  React.useEffect(() => {
-    if (isMenuOpen && mobileMenuRef.current) {
-      mobileMenuRef.current.style.backgroundColor = '#e6f0ff';
-    }
-  }, [isMenuOpen]);
-  
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border/40 shadow-sm">
       <div className="container mx-auto px-4 py-3">
@@ -72,14 +62,7 @@ const Navbar: React.FC = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div 
-          ref={mobileMenuRef}
-          className="md:hidden fixed inset-0 z-50 animate-fade-in" 
-          style={{
-            top: '57px',
-            backgroundColor: '#e6f0ff'
-          }}
-        >
+        <div className="md:hidden fixed inset-0 z-50 bg-blue-50 animate-fade-in" style={{top: '57px'}}>
           <div className="container mx-auto p-4">
             <div className="flex flex-col space-y-4">
               <Link 
