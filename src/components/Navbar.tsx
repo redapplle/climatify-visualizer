@@ -62,32 +62,38 @@ const Navbar: React.FC = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-blue-100 dark:bg-blue-950 shadow-lg animate-fade-in" style={{top: '57px'}}>
+        <div 
+          className="md:hidden fixed inset-0 z-50 shadow-lg animate-fade-in" 
+          style={{
+            top: '57px',
+            backgroundColor: '#e6f0ff',
+          }}
+        >
           <div className="container mx-auto p-4">
             <div className="flex flex-col space-y-4">
               <Link 
                 to="/" 
-                className={`p-3 rounded-lg font-medium ${location.pathname === '/' ? 'bg-primary/10 text-primary' : 'text-gray-800 dark:text-white'}`}
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/' ? 'bg-primary/10 text-primary' : 'text-gray-800'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
               <Link 
                 to="/compare" 
-                className={`p-3 rounded-lg font-medium ${location.pathname === '/compare' ? 'bg-primary/10 text-primary' : 'text-gray-800 dark:text-white'}`}
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/compare' ? 'bg-primary/10 text-primary' : 'text-gray-800'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Compare
               </Link>
               <Link 
                 to="/favorites" 
-                className={`p-3 rounded-lg font-medium ${location.pathname === '/favorites' ? 'bg-primary/10 text-primary' : 'text-gray-800 dark:text-white'}`}
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/favorites' ? 'bg-primary/10 text-primary' : 'text-gray-800'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Favorites
               </Link>
               
-              <div className="border-t border-border/40 pt-4">
+              <div className="border-t border-gray-300 pt-4">
                 <Button 
                   variant="outline" 
                   onClick={() => {
