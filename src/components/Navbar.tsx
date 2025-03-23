@@ -62,26 +62,26 @@ const Navbar: React.FC = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-white dark:bg-gray-900 animate-fade-in" style={{top: '57px'}}>
+        <div className="md:hidden fixed inset-0 z-50 bg-blue-100 dark:bg-blue-950 shadow-lg animate-fade-in" style={{top: '57px'}}>
           <div className="container mx-auto p-4">
             <div className="flex flex-col space-y-4">
               <Link 
                 to="/" 
-                className={`p-3 rounded-lg font-medium ${location.pathname === '/' ? 'bg-primary/10 text-primary' : ''}`}
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/' ? 'bg-primary/10 text-primary' : 'text-gray-800 dark:text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
               <Link 
                 to="/compare" 
-                className={`p-3 rounded-lg font-medium ${location.pathname === '/compare' ? 'bg-primary/10 text-primary' : ''}`}
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/compare' ? 'bg-primary/10 text-primary' : 'text-gray-800 dark:text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Compare
               </Link>
               <Link 
                 to="/favorites" 
-                className={`p-3 rounded-lg font-medium ${location.pathname === '/favorites' ? 'bg-primary/10 text-primary' : ''}`}
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/favorites' ? 'bg-primary/10 text-primary' : 'text-gray-800 dark:text-white'}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 Favorites
