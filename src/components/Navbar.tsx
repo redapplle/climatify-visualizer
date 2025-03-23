@@ -9,47 +9,15 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   
-  // Create a new style element to inject custom CSS that won't be affected by Tailwind
+  // Create a ref for the mobile menu
+  const mobileMenuRef = React.useRef<HTMLDivElement>(null);
+  
+  // Effect to set background when menu opens
   React.useEffect(() => {
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .mobile-menu-overlay {
-        position: fixed;
-        top: 57px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #e6f0ff !important;
-        z-index: 50;
-        overflow-y: auto;
-      }
-      
-      .mobile-menu-link {
-        display: block;
-        padding: 12px;
-        margin-bottom: 8px;
-        border-radius: 8px;
-        font-weight: 500;
-        color: #1f2937;
-      }
-      
-      .mobile-menu-link.active {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: #3b82f6;
-      }
-      
-      .mobile-menu-divider {
-        border-top: 1px solid #d1d5db;
-        margin: 16px 0;
-        padding-top: 16px;
-      }
-    `;
-    document.head.appendChild(styleElement);
-    
-    return () => {
-      document.head.removeChild(styleElement);
-    };
-  }, []);
+    if (isMenuOpen && mobileMenuRef.current) {
+      mobileMenuRef.current.style.backgroundColor = '#e6f0ff';
+    }
+  }, [isMenuOpen]);
   
   return (
     <header className="sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-border/40 shadow-sm">
@@ -104,53 +72,49 @@ const Navbar: React.FC = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div id="mobile-menu-container" className="mobile-menu-overlay">
+        <div 
+          ref={mobileMenuRef}
+          className="md:hidden fixed inset-0 z-50 animate-fade-in" 
+          style={{
+            top: '57px',
+            backgroundColor: '#e6f0ff'
+          }}
+        >
           <div className="container mx-auto p-4">
-            <div>
-              <a 
-                href="/"
-                className={`mobile-menu-link ${location.pathname === '/' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  window.location.href = '/';
-                }}
+            <div className="flex flex-col space-y-4">
+              <Link 
+                to="/" 
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/' ? 'bg-primary/10 text-primary' : 'text-gray-800'}`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 Home
-              </a>
-              <a 
-                href="/compare"
-                className={`mobile-menu-link ${location.pathname === '/compare' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  window.location.href = '/compare';
-                }}
+              </Link>
+              <Link 
+                to="/compare" 
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/compare' ? 'bg-primary/10 text-primary' : 'text-gray-800'}`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 Compare
-              </a>
-              <a 
-                href="/favorites"
-                className={`mobile-menu-link ${location.pathname === '/favorites' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  window.location.href = '/favorites';
-                }}
+              </Link>
+              <Link 
+                to="/favorites" 
+                className={`p-3 rounded-lg font-medium ${location.pathname === '/favorites' ? 'bg-primary/10 text-primary' : 'text-gray-800'}`}
+                onClick={() => setIsMenuOpen(false)}
               >
                 Favorites
-              </a>
+              </Link>
               
-              <div className="mobile-menu-divider">
-                <button 
+              <div className="border-t border-gray-300 pt-4">
+                <Button 
+                  variant="outline" 
                   onClick={() => {
                     toggleUnit();
                     setIsMenuOpen(false);
                   }}
-                  className="w-full py-2 px-4 bg-white border border-gray-300 rounded-md text-center"
+                  className="w-full justify-center"
                 >
                   Switch to {unit === 'metric' ? 'Fahrenheit (°F)' : 'Celsius (°C)'}
-                </button>
+                </Button>
               </div>
             </div>
           </div>
