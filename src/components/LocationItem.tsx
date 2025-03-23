@@ -15,6 +15,7 @@ const LocationItem: React.FC<LocationItemProps> = ({ location, onRemove }) => {
         <MapPin className="h-4 w-4 text-primary mr-2" />
         <span className="font-medium">{location.name}</span>
         <span className="text-sm text-foreground/70 ml-1">{location.country}</span>
+        {location.state && <span className="text-sm text-foreground/70 ml-1">({location.state})</span>}
       </div>
       <button
         onClick={() => onRemove(location.id)}

@@ -1,8 +1,9 @@
 
-import React, { useEffect, useRef } from 'react';
-import { Search, X, Loader2 } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Search, X, Loader2, AlertTriangle } from 'lucide-react';
 import { useWeather } from '../context/WeatherContext';
 import { formatLocationName } from '../utils/helpers';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const SearchBar: React.FC = () => {
   const { 
@@ -15,6 +16,7 @@ const SearchBar: React.FC = () => {
     isLoading
   } = useWeather();
   
+  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
   
@@ -23,6 +25,7 @@ const SearchBar: React.FC = () => {
       if (resultsRef.current && !resultsRef.current.contains(event.target as Node) && 
           inputRef.current && !inputRef.current.contains(event.target as Node)) {
         clearSearch();
+        setError(null);
       }
     };
     
@@ -32,23 +35,32 @@ const SearchBar: React.FC = () => {
     };
   }, [clearSearch]);
   
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     if (searchQuery.trim()) {
-      searchLocations(searchQuery);
+      try {
+        await searchLocations(searchQuery);
+      } catch (err) {
+        setError('Failed to search locations. Please try again.');
+      }
     }
   };
   
   const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (searchQuery.trim()) {
-        searchLocations(searchQuery);
+        handleSearch(e as unknown as React.FormEvent);
       }
     } else if (e.key === 'Escape') {
       clearSearch();
+      setError(null);
     } else if (searchQuery.length >= 3) {
+      setError(null);
       const debounce = setTimeout(() => {
-        searchLocations(searchQuery);
+        searchLocations(searchQuery).catch(err => {
+          setError('Failed to search locations. Please try again.');
+        });
       }, 500);
       
       return () => clearTimeout(debounce);
@@ -75,7 +87,10 @@ const SearchBar: React.FC = () => {
           {searchQuery && (
             <button
               type="button"
-              onClick={clearSearch}
+              onClick={() => {
+                clearSearch();
+                setError(null);
+              }}
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
               aria-label="Clear search"
             >
@@ -85,7 +100,16 @@ const SearchBar: React.FC = () => {
         </div>
       </form>
       
-      {(searchResults.length > 0 || isLoading) && (
+      {error && (
+        <div className="absolute mt-2 w-full z-10">
+          <Alert variant="destructive" className="bg-white/90 dark:bg-black/80 backdrop-blur-lg border-red-300 dark:border-red-800">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        </div>
+      )}
+      
+      {(searchResults.length > 0 || isLoading) && !error && (
         <div 
           ref={resultsRef}
           className="absolute mt-2 w-full bg-white/90 dark:bg-black/80 backdrop-blur-lg rounded-xl shadow-xl border border-white/20 dark:border-white/10 z-10 max-h-80 overflow-auto transition-all duration-300 animate-fade-in"
@@ -100,7 +124,10 @@ const SearchBar: React.FC = () => {
               {searchResults.map((location) => (
                 <li key={location.id}>
                   <button
-                    onClick={() => addLocation(location)}
+                    onClick={() => {
+                      addLocation(location);
+                      setError(null);
+                    }}
                     className="w-full px-4 py-3 text-left hover:bg-primary/10 transition-colors flex items-center"
                   >
                     <div>

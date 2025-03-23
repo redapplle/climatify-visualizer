@@ -135,7 +135,7 @@ interface WeatherProviderProps {
 }
 
 // API key for OpenWeatherMap
-const API_KEY = 'YOUR_API_KEY'; // Replace with your API key or use environment variable
+const API_KEY = '1635890035cbba097fd5c26c8ea672a1'; // OpenWeatherMap API key
 
 export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) => {
   const [unit, setUnit] = useState<'metric' | 'imperial'>('metric');
@@ -229,10 +229,16 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
       );
       
       if (!response.ok) {
-        throw new Error('Failed to fetch locations');
+        throw new Error(`Failed to fetch locations: ${response.status} ${response.statusText}`);
       }
       
       const data = await response.json();
+      
+      if (!Array.isArray(data) || data.length === 0) {
+        toast.error(`No locations found for "${query}"`);
+        setSearchResults([]);
+        return;
+      }
       
       const locations: Location[] = data.map((item: any) => ({
         id: `${item.lat}-${item.lon}`,
@@ -247,6 +253,7 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
     } catch (error) {
       console.error('Error searching locations:', error);
       toast.error('Failed to search locations. Please try again.');
+      setSearchResults([]);
     } finally {
       setIsLoading(false);
     }
