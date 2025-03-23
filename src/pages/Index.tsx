@@ -38,6 +38,18 @@ const Index = () => {
             <SearchBar />
           </section>
           
+          {selectedLocations.length > 0 && (
+            <section className="mb-10 animate-fade-in">
+              <h2 className="text-xl font-semibold tracking-tight mb-4">Selected Locations</h2>
+              
+              <div className="grid grid-cols-1 gap-6">
+                {selectedLocations.map((location, index) => (
+                  <WeatherCard key={location.id} location={location} />
+                ))}
+              </div>
+            </section>
+          )}
+          
           {currentLocation && (
             <section className="mb-10 animate-fade-in">
               <div className="flex items-center mb-4">
@@ -46,18 +58,6 @@ const Index = () => {
               </div>
               
               <WeatherCard location={currentLocation} />
-            </section>
-          )}
-          
-          {selectedLocations.length > 0 && (
-            <section className="mb-10 animate-fade-in">
-              <h2 className="text-xl font-semibold tracking-tight mb-4">Selected Locations</h2>
-              
-              <div className="grid grid-cols-1 gap-6">
-                {selectedLocations.map((location) => (
-                  <WeatherCard key={location.id} location={location} />
-                ))}
-              </div>
             </section>
           )}
           
@@ -70,7 +70,7 @@ const Index = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {favorites.slice(0, 3).map((location) => (
-                  <div key={location.id} className="bg-white/50 dark:bg-black/30 border border-white/30 dark:border-white/10 rounded-xl p-2 shadow-lg hover-lift">
+                  <div key={location.id} className="bg-white/60 dark:bg-black/40 border border-white/30 dark:border-white/10 rounded-xl p-2 shadow-lg hover-lift">
                     <Button 
                       variant="ghost" 
                       className="w-full justify-between h-auto py-3 font-normal text-left"

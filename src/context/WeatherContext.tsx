@@ -266,20 +266,25 @@ export const WeatherProvider: React.FC<WeatherProviderProps> = ({ children }) =>
 
   const addLocation = (location: Location) => {
     setSelectedLocations(prev => {
-      // Check if already at maximum
-      if (prev.length >= 3) {
-        toast.error('You can only compare up to 3 locations. Please remove one first.');
-        return prev;
-      }
-      
       // Check if location already exists
       if (prev.some(loc => loc.id === location.id)) {
         return prev;
       }
       
-      // Add location and fetch its weather data
+      let newLocations;
+      // If already at maximum, remove the oldest location
+      if (prev.length >= 3) {
+        // Remove the first (oldest) location and add the new one at the end
+        newLocations = [...prev.slice(1), location];
+        toast.info('Removed oldest location to add new one');
+      } else {
+        // Add the new location
+        newLocations = [...prev, location];
+      }
+      
+      // Fetch weather data for the new location
       fetchWeatherForLocation(location);
-      return [...prev, location];
+      return newLocations;
     });
     clearSearch();
   };
